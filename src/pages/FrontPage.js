@@ -1,43 +1,27 @@
+import { Col } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
 import Page from '../components/Page/Page';
+import Post from '../components/Post/Post';
 
-const FrontPage = () => {
+const FrontPage = ({ posts }) => {
   return (
     <Page>
       <Container>
-        <Row>
-          <Col md={7}>
-            <Card>
-              <Card.Body>
-                <Card.Title>Card Title</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                  Card Score
-                </Card.Subtitle>
-                <Card.Text>
-                  Author
-                </Card.Text>
-              </Card.Body>
-              <Card.Footer className="text-muted">Card Date</Card.Footer>
-            </Card>
+        <Row className="justify-content-md-center">
+          <Col className="mb-3" md={7}>
+            <h1>Newest posts</h1>
           </Col>
-          <Col md={7}>
-            <Card>
-              <Card.Body>
-                <Card.Title>Card Title</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                  Card Score
-                </Card.Subtitle>
-                <Card.Text>
-                  Author
-                </Card.Text>
-              </Card.Body>
-              <Card.Footer className="text-muted">Card Date</Card.Footer>
-            </Card>
-          </Col>
-          
+          {posts.map((post) => (
+            <Post
+              key={post.id}
+              title={post.title}
+              author={post.by}
+              score={post.score}
+              time={post.time}
+              id={post.id}
+            />
+          ))}
         </Row>
       </Container>
     </Page>
