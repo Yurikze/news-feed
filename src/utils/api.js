@@ -14,7 +14,7 @@ class Api {
 
   getItems() {
     return fetch(
-      `${this.baseUrl}/newstories.json?&limitToFirst=2&orderBy="$key"`,
+      `${this.baseUrl}/newstories.json?&limitToFirst=5&orderBy="$key"`,
       {
         headers: this.headers,
       }

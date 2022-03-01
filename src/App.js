@@ -13,11 +13,9 @@ function App() {
   useEffect(() => {
     const fetchItems = async () => {
       const items = await api.getItems()
-      console.log(items)
       const res = []
       for (let item of items) {
         const fetchedPost = await api.getItem(item)
-        console.log(fetchedPost)
         res.push(fetchedPost)
       }
       setPosts(res)
