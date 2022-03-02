@@ -44,7 +44,7 @@ const PostPage = () => {
       }
     };
 
-    if (currentPost.hasOwnProperty('id')) {
+    if (currentPost.hasOwnProperty('kids')) {
       dispatch(loadingActions.setLoading(true));
       fetchComments(currentPost)
         .then((posts) => setComments(posts.filter((post) => post && true)))
