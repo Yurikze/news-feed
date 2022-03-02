@@ -2,19 +2,21 @@ import style from './Spinner.module.scss';
 
 const Spinner = () => {
   return (
-    <div className={style.spinner}>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+    <div className={style.spinner__container}>
+      <div className={style.spinner}>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
   );
 };

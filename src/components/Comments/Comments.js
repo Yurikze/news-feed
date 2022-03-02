@@ -1,8 +1,9 @@
+import { useSelector } from 'react-redux';
 import style from './Comments.module.scss'
 import Spinner from '../Spinner/Spinner'
 
 const Comments = ({comments}) => {
-
+  const {isLoading} = useSelector(state => state.loading)
 
   const commentsDestruct = (comments) => {
     return comments.map((comment) => {
@@ -19,12 +20,10 @@ const Comments = ({comments}) => {
     });
   };
 
-  let commetsContent = comments.length ? (
+  let commetsContent = !isLoading ? (
     <ul className={style.comments}>{commentsDestruct(comments)}</ul>
   ) : (
-    <div className={style.comments__spinner}>
       <Spinner />
-    </div>
   );
 
   return commetsContent
