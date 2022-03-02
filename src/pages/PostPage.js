@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation, Link } from 'react-router-dom';
 import Comments from '../components/Comments/Comments';
 import Page from '../components/Page/Page';
 import { timeConverter } from '../utils/utils';
@@ -14,6 +14,8 @@ const PostPage = () => {
   const [currentPost, setCurrentPost] = useState({});
   const [comments, setComments] = useState([]);
   const dispatch = useDispatch();
+  const location = useLocation();
+ 
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -63,6 +65,7 @@ const PostPage = () => {
               <h1 onClick={() => dispatch(loadingActions.setLoading(true))}>
                 {currentPost.title}
               </h1>
+              <Link to={location.pathname}>{currentPost.title}</Link>
               <p className="text-muted">
                 {timeConverter(currentPost.time)} by {currentPost.by} |
                 Comments: {comments.length ? comments.length : 0}
