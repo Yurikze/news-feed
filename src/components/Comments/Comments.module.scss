@@ -1,0 +1,20 @@
+.comments {
+  list-style: none;
+  padding: 0;
+  &__item {
+    background-color: #eee;
+    padding: 15px;
+    border-radius: 15px;
+    overflow: hidden;
+    hyphens: auto;
+    margin-bottom: 15px;
+  }
+  &__answers {
+    list-style: none;
+  }
+  &__spinner {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+}

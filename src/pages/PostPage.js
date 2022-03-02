@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
+import Comments from '../components/Comments/Comments';
 import Page from '../components/Page/Page';
 import { timeConverter } from '../utils/utils';
-import api from '../utils/api';
 
-const PostPage = ({ posts }) => {
+import api from '../utils/api';
+import GoBackBtn from '../components/GoBackBtn/GoBackBtn';
+
+const PostPage = () => {
   const { postId } = useParams();
   const [currentPost, setCurrentPost] = useState({});
   const [comments, setComments] = useState([]);
@@ -28,7 +31,7 @@ const PostPage = ({ posts }) => {
         const fetchedComments = await Promise.all(
           post.kids.map(async (commentId) => {
             const fetchedComment = await api.getItem(commentId);
-            if (fetchedComment.hasOwnProperty('dead')) return false
+            if (fetchedComment.hasOwnProperty('dead')) return false;
             if (fetchedComment.hasOwnProperty('kids')) {
               fetchedComment.kids = await fetchComments(fetchedComment);
             }
@@ -41,28 +44,16 @@ const PostPage = ({ posts }) => {
 
     try {
       if (currentPost.hasOwnProperty('id')) {
-        fetchComments(currentPost).then((posts) => setComments(posts.filter(post => post && true)));
+        fetchComments(currentPost).then((posts) =>
+          setComments(posts.filter((post) => post && true))
+        );
       }
     } catch (error) {
       console.log(error);
     }
   }, [currentPost]);
 
-
-  let commetsContent = (
-    <ul>
-      {comments.map(comment => {
-        if (comment) {
-
-          if (comment.hasOwnProperty('kids')) {
-            
-          }
-
-          return <li key={comment.id}>{comment.text}</li>
-        }
-      })}
-    </ul>
-  )
+ 
 
   return (
     <Page>
@@ -70,12 +61,13 @@ const PostPage = ({ posts }) => {
         <Container>
           <Row className="justify-content-md-center">
             <Col md={7}>
+              <GoBackBtn />
               <h1>{currentPost.title}</h1>
               <p className="text-muted">
                 {timeConverter(currentPost.time)} by {currentPost.by} |
-                Comments: {comments.length ? comments.length : 0}
+                Comments: {comments.length ? comments.length : 'Loading...'}
               </p>
-              {commetsContent}
+              <Comments comments={comments} />
             </Col>
           </Row>
         </Container>
