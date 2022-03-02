@@ -4,7 +4,8 @@ import { useParams } from 'react-router-dom';
 import Comments from '../components/Comments/Comments';
 import Page from '../components/Page/Page';
 import { timeConverter } from '../utils/utils';
-
+import { useDispatch } from 'react-redux';
+import { loadingActions } from '../store/loadingSlice';
 import api from '../utils/api';
 import GoBackBtn from '../components/GoBackBtn/GoBackBtn';
 
@@ -12,10 +13,11 @@ const PostPage = () => {
   const { postId } = useParams();
   const [currentPost, setCurrentPost] = useState({});
   const [comments, setComments] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchPost = async () => {
-      const post = await api.getItem(8863);
+      const post = await api.getItem(postId);
       setCurrentPost(post);
     };
     try {
@@ -42,18 +44,14 @@ const PostPage = () => {
       }
     };
 
-    try {
-      if (currentPost.hasOwnProperty('id')) {
-        fetchComments(currentPost).then((posts) =>
-          setComments(posts.filter((post) => post && true))
-        );
-      }
-    } catch (error) {
-      console.log(error);
+    if (currentPost.hasOwnProperty('id')) {
+      dispatch(loadingActions.setLoading(true));
+      fetchComments(currentPost)
+        .then((posts) => setComments(posts.filter((post) => post && true)))
+        .catch((err) => console.log(err))
+        .finally(() => dispatch(loadingActions.setLoading(false)));
     }
-  }, [currentPost]);
-
- 
+  }, [currentPost, dispatch]);
 
   return (
     <Page>
@@ -62,10 +60,12 @@ const PostPage = () => {
           <Row className="justify-content-md-center">
             <Col md={7}>
               <GoBackBtn />
-              <h1>{currentPost.title}</h1>
+              <h1 onClick={() => dispatch(loadingActions.setLoading(true))}>
+                {currentPost.title}
+              </h1>
               <p className="text-muted">
                 {timeConverter(currentPost.time)} by {currentPost.by} |
-                Comments: {comments.length ? comments.length : 'Loading...'}
+                Comments: {comments.length ? comments.length : 0}
               </p>
               <Comments comments={comments} />
             </Col>
