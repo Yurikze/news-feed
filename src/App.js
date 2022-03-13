@@ -17,12 +17,10 @@ function App() {
       try {
         dispatch(loadingActions.setLoading(true))
         const items = await api.getItems();
-        const res = [];
-        for (let item of items) {
-          const fetchedPost = await api.getItem(item);
-          res.push(fetchedPost);
-        }
-        setPosts(res);
+        const posts = await Promise.all(items.map(item => {
+          return api.getItem(item)
+        }))
+        setPosts(posts);
       } catch(err) {
         console.log(err)
       } finally {
