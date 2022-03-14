@@ -1,3 +1,8 @@
+import { useEffect, useState } from 'react';
+import api from '../utils/api';
+import { useDispatch } from 'react-redux';
+import { loadingActions } from '../store/loadingSlice';
+
 import { Col } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -6,9 +11,34 @@ import Post from '../components/Post/Post';
 import {useSelector} from 'react-redux'
 import Spinner from '../components/Spinner/Spinner'
 
-const FrontPage = ({ posts }) => {
+const FrontPage = () => {
 
   const {isLoading} = useSelector(state => state.loading)
+
+  const dispatch = useDispatch();
+
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        dispatch(loadingActions.setLoading(true))
+        const items = await api.getItems();
+        const posts = await Promise.all(items.map(item => {
+          return api.getItem(item)
+        }))
+        setPosts(posts);
+      } catch(err) {
+        console.log(err)
+      } finally {
+        dispatch(loadingActions.setLoading(false))
+      }
+      
+    };
+
+    fetchItems()
+    
+  }, []);
 
 
   const postsContent = isLoading ? <Spinner /> : (
