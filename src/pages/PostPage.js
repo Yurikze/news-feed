@@ -19,7 +19,7 @@ const PostPage = () => {
 
   useEffect(() => {
     const fetchPost = async () => {
-      const post = await api.getItem(postId);
+      const post = await api.getItem(8863);
       setCurrentPost(post);
     };
     try {

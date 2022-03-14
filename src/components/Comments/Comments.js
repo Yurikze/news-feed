@@ -15,7 +15,7 @@ const Comments = ({comments}) => {
           </div>
         );
       } else {
-        return <li key={comment.id} className={style.comments__item}>{comment.text}</li>;
+        return <li dangerouslySetInnerHTML={{ __html: comment.text }} key={comment.id} className={style.comments__item}></li>;
       }
     });
   };

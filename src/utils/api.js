@@ -22,7 +22,7 @@ class Api {
   }
 
   getItem(itemId) {
-    return fetch(`${this.baseUrl}/item/${itemId}.json?print=pretty`, {
+    return fetch(`${this.baseUrl}/item/${itemId}.json`, {
       headers: this.headers,
     }).then((res) => this._parseResponse(res));
   }
